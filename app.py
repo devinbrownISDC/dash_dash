@@ -1,5 +1,6 @@
 import pandas as pd
 import dash_core_components as dcc
+import dash
 import dash_html_components as html
 #import dash_table_experiments as dtable
 #import dash_dependencies
@@ -14,7 +15,10 @@ df = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/2014_
 #Create app layout
 app = dash.Dash(__name__)
 server = app.server
-app.layout
+app.layout = html.Div(children=html.H1('Hello Dash'))
+
+if __name__ == '__main__':
+    app.run_server(debug=True)
 
 
 
