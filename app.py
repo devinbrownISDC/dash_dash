@@ -32,9 +32,7 @@ dash_table.DataTable(
     columns = [{"name": i, "id": i} for i in df.columns],
     data=df.to_dict("rows")
     )
-]
-
-)
+])
 
 
 
