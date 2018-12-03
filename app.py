@@ -11,19 +11,20 @@ import seaborn
 import numpy
 
 #test data
-df = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/2014_usa_states.csv')
+df = pd.read_csv('analyst_activities.csv')
 
+points_plot_df = df[df.Q > 2]
 
 #Create app layout
 app = dash.Dash(__name__)
 server = app.server
 app.layout = html.Div(children=[
-html.H1('Hello Dash'),
+html.H1('Analyst Activities'),
 
 #basic graph syntax
 dcc.Graph(
     id='mapbox',
-    figure = {'data': [go.Bar(x=df['Postal'],y=df['Population'])]}
+    figure = {'data': [go.Bar(x=points_plot_df['Who'],y=points_plot_df['Points'])]}
 ),
 
 #basic table syntax
