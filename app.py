@@ -4,8 +4,7 @@ import dash
 import dash_html_components as html
 import plotly.graph_objs as go
 import dash_table
-#import dash_dependencies
-#from dash.dependenciest import Input, Output, State
+from dash.dependencies import Input, Output, State
 import plotly
 import seaborn
 import numpy
@@ -20,6 +19,8 @@ app = dash.Dash(__name__)
 server = app.server
 app.layout = html.Div(children=[
 html.H1('Analyst Activities'),
+
+
 
 #basic graph syntax
 dcc.Graph(
