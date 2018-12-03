@@ -21,6 +21,13 @@ app.layout = html.Div(children=[
 html.H1('Analyst Activities'),
 
 
+dcc.Dropdown(
+    options=[
+        {'label': 'Michael'},
+        {'label': 'Parker'},
+    ],
+    placeholder="Select an analyst",
+),
 
 #basic graph syntax
 dcc.Graph(
