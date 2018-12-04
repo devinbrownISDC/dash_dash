@@ -20,9 +20,23 @@ server = app.server
 app.layout = html.Div(children=[
 html.H1('Analyst Activities'),
 
+#histogram
+dcc.Graph(
+    id='point_count_hist',
+    figure={'data':[go.Histogram(x=df['Who'])]}
+),
+
+
+#basic graph syntax
+#dcc.Graph(
+#    id='mapbox',
+#    figure = {'data': [go.Bar(x=points_plot_df['Who'],y=points_plot_df['Points'])]}
+#),
+
+html.H3('Please select which quarter to view:'),
 
 dcc.Dropdown(
-    id='analyst_dropdown',
+    id='quarter_dropdown',
     options=[
         {'label': 'Q1','value':1},
         {'label': 'Q2','value':2},
@@ -30,19 +44,6 @@ dcc.Dropdown(
         {'label': 'Q4','value':4}
     ],
     placeholder="Select a quarter",
-),
-
-#histogram
-dcc.Graph(
-    id='blank',
-    figure={'data':[go.Histogram(x=df['Who'])]}
-),
-
-
-#basic graph syntax
-dcc.Graph(
-    id='mapbox',
-    figure = {'data': [go.Bar(x=points_plot_df['Who'],y=points_plot_df['Points'])]}
 ),
 
 #basic table syntax
@@ -55,12 +56,16 @@ dash_table.DataTable(
 
 ])
 
-@app.callback(Output('analyst_table', 'data'), [Input('analyst_dropdown', 'value')])
+@app.callback(Output('analyst_table', 'data'), [Input('quarter_dropdown', 'value')])
 def update_rows(value):
     dff = df[df['Q'] == value]
     return dff.to_dict('records')
 
-
+@app.callback(Output('point_count_hist','figure'),[Input('quarter_dropdown','value')])
+def update_count_hist(value):
+    dff = df[df['Q'] == value]
+    new_figure = {'data':[go.Histogram(x=dff['Who'])]}
+    return new_figure
 
 #main function
 if __name__ == '__main__':
