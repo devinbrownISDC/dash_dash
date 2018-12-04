@@ -22,12 +22,22 @@ html.H1('Analyst Activities'),
 
 
 dcc.Dropdown(
+    id='analyst_dropdown',
     options=[
-        {'label': 'Michael'},
-        {'label': 'Parker'},
+        {'label': 'Q1','value':1},
+        {'label': 'Q2','value':2},
+        {'label': 'Q3','value':3},
+        {'label': 'Q4','value':4}
     ],
-    placeholder="Select an analyst",
+    placeholder="Select a quarter",
 ),
+
+#histogram
+dcc.Graph(
+    id='blank',
+    figure={'data':[go.Histogram(x=df['Who'])]}
+),
+
 
 #basic graph syntax
 dcc.Graph(
@@ -37,7 +47,7 @@ dcc.Graph(
 
 #basic table syntax
 dash_table.DataTable(
-    id='table',
+    id='analyst_table',
     columns = [{"name": i, "id": i} for i in df.columns],
     data=df.to_dict("rows")
 )
@@ -45,6 +55,10 @@ dash_table.DataTable(
 
 ])
 
+@app.callback(Output('analyst_table', 'data'), [Input('analyst_dropdown', 'value')])
+def update_rows(value):
+    dff = df[df['Q'] == value]
+    return dff.to_dict('records')
 
 
 
