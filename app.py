@@ -58,6 +58,7 @@ dash_table.DataTable(
 
 
 ])
+##########END OF APP LAYOUT#############
 
 @app.callback(Output('analyst_table', 'data'), [Input('quarter_dropdown', 'value')])
 def update_rows(value):
