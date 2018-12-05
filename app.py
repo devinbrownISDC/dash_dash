@@ -12,7 +12,8 @@ import numpy
 #test data
 df = pd.read_csv('analyst_activities.csv')
 
-points_plot_df = df[df.Q > 2]
+points_quarter_df = df.groupby(['Who','Q'],as_index=False).Points.sum()
+points_quarter_df = pd.DataFrame(points_quarter_df)
 
 #Create app layout
 app = dash.Dash(__name__)
@@ -20,10 +21,12 @@ server = app.server
 app.layout = html.Div(children=[
 html.H1('Analyst Activities'),
 
+
+
 #histogram
 dcc.Graph(
     id='point_count_hist',
-    figure={'data':[go.Histogram(x=df['Who'])]}
+    figure={'data':[go.Bar(x=df['Who'],y=df['Points'])]}
 ),
 
 
@@ -63,8 +66,8 @@ def update_rows(value):
 
 @app.callback(Output('point_count_hist','figure'),[Input('quarter_dropdown','value')])
 def update_count_hist(value):
-    dff = df[df['Q'] == value]
-    new_figure = {'data':[go.Histogram(x=dff['Who'])]}
+    dff = points_quarter_df[points_quarter_df['Q'] == value]
+    new_figure = {'data':[go.Bar(x=dff['Who'],y=dff['Points'])]}
     return new_figure
 
 #main function
